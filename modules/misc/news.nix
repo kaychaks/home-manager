@@ -1065,6 +1065,25 @@ in
           A new module is available: 'programs.alacritty'.
         '';
       }
+
+      {
+        time = "2019-04-26T22:53:48+00:00";
+        condition = config.programs.vscode.enable;
+        message = ''
+          A new module is available: 'programs.vscode.haskell'.
+
+          Enable to add Haskell IDE Engine and syntax highlighting
+          support to your VSCode.
+        '';
+      }
+
+      {
+        time = "2019-05-04T23:56:39+00:00";
+        condition = hostPlatform.isLinux;
+        message = ''
+          A new module is available: 'services.rsibreak'.
+        '';
+      }
     ];
   };
 }
