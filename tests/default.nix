@@ -16,6 +16,7 @@ import nmt {
   modules = import ../modules/modules.nix { inherit pkgs; lib = pkgs.lib; };
   testedAttrPath = [ "home" "activationPackage" ];
   tests = {
+    browserpass = ./modules/programs/browserpass.nix;
     files-executable = ./modules/files/executable.nix;
     files-hidden-source = ./modules/files/hidden-source.nix;
     files-source-with-spaces = ./modules/files/source-with-spaces.nix;
@@ -29,15 +30,18 @@ import nmt {
   }
   // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux (
     {
+      getmail = ./modules/programs/getmail.nix;
       i3-keybindings = ./modules/services/window-managers/i3-keybindings.nix;
     }
     // import ./modules/misc/pam
+    // import ./modules/misc/xsession
     // import ./modules/systemd
   )
   // import ./modules/home-environment
   // import ./modules/misc/fontconfig
   // import ./modules/programs/alacritty
   // import ./modules/programs/bash
+  // import ./modules/programs/gpg
   // import ./modules/programs/ssh
   // import ./modules/programs/tmux
   // import ./modules/programs/zsh;
