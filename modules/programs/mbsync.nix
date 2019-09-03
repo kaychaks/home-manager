@@ -20,7 +20,7 @@ let
     }
     //
     optionalAttrs (tls.enable && tls.certificatesFile != null) {
-      CertificateFile = tls.certificatesFile;
+      CertificateFile = toString tls.certificatesFile;
     };
 
   masterSlaveMapping = {
@@ -112,7 +112,7 @@ in
       package = mkOption {
         type = types.package;
         default = pkgs.isync;
-        defaultText = "pkgs.isync";
+        defaultText = literalExample "pkgs.isync";
         example = literalExample "pkgs.isync";
         description = "The package to use for the mbsync binary.";
       };

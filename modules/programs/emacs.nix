@@ -29,7 +29,7 @@ in
       package = mkOption {
         type = types.package;
         default = pkgs.emacs;
-        defaultText = "pkgs.emacs";
+        defaultText = literalExample "pkgs.emacs";
         example = literalExample "pkgs.emacs25-nox";
         description = "The Emacs package to use.";
       };
@@ -39,7 +39,11 @@ in
         type = hmTypes.selectorFunction;
         defaultText = "epkgs: []";
         example = literalExample "epkgs: [ epkgs.emms epkgs.magit ]";
-        description = "Extra packages available to Emacs.";
+        description = ''
+          Extra packages available to Emacs. To get a list of
+          available packages run:
+          <command>nix-env -f '&lt;nixpkgs&gt;' -qaP -A emacsPackagesNg</command>.
+        '';
       };
 
       overrides = mkOption {

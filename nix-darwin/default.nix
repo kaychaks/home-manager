@@ -25,7 +25,7 @@ in
     home-manager = {
       useUserPackages = mkEnableOption ''
         installation of user packages through the
-        <option>users.users.&lt;name?&gt;.packages</option> option.
+        <option>users.users.‹name?›.packages</option> option.
       '';
 
       users = mkOption {
@@ -39,6 +39,13 @@ in
   };
 
   config = mkIf (cfg.users != {}) {
+    warnings =
+      flatten (flip mapAttrsToList cfg.users (user: config:
+        flip map config.warnings (warning:
+          "${user} profile: ${warning}"
+        )
+      ));
+
     assertions =
       flatten (flip mapAttrsToList cfg.users (user: config:
         flip map config.assertions (assertion:
