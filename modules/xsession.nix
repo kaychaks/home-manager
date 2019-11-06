@@ -104,16 +104,15 @@ in
             Type = "oneshot";
             RemainAfterExit = true;
             ExecStart =
+              with config.home.keyboard;
               let
-                args = concatStringsSep " " (
-                  [
-                    "-layout '${config.home.keyboard.layout}'"
-                    "-variant '${config.home.keyboard.variant}'"
-                  ] ++
-                  (map (v: "-option '${v}'") config.home.keyboard.options)
-                );
+                args =
+                  optional (layout != null) "-layout '${layout}'"
+                  ++ optional (variant != null) "-variant '${variant}'"
+                  ++ optional (model != null) "-model '${model}'"
+                  ++ map (v: "-option '${v}'") options;
               in
-                "${pkgs.xorg.setxkbmap}/bin/setxkbmap ${args}";
+                "${pkgs.xorg.setxkbmap}/bin/setxkbmap ${toString args}";
           };
         };
       };
@@ -131,7 +130,7 @@ in
     home.file.".xprofile".text = ''
         . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
 
-        if [[ -e "$HOME/.profile" ]]; then
+        if [ -e "$HOME/.profile" ]; then
           . "$HOME/.profile"
         fi
 
@@ -153,7 +152,7 @@ in
     home.file.${cfg.scriptPath} = {
       executable = true;
       text = ''
-        if [[ ! -v HM_XPROFILE_SOURCED ]]; then
+        if [ -z "$HM_XPROFILE_SOURCED" ]; then
           . ~/.xprofile
         fi
         unset HM_XPROFILE_SOURCED
@@ -168,7 +167,7 @@ in
         systemctl --user stop graphical-session-pre.target
 
         # Wait until the units actually stop.
-        while [[ -n "$(systemctl --user --no-legend --state=deactivating list-units)" ]]; do
+        while [ -n "$(systemctl --user --no-legend --state=deactivating list-units)" ]; do
           sleep 0.5
         done
       '';

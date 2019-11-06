@@ -1185,6 +1185,50 @@ in
           Specifying them as strings is deprecated.
         '';
       }
+
+      {
+        time = "2019-09-17T19:33:49+00:00";
+        condition = hostPlatform.isLinux;
+        message = ''
+          A new module is available: 'services.sxhkd'.
+        '';
+      }
+
+      {
+        time = "2019-09-26T21:05:24+00:00";
+        message = ''
+          A new module is available: 'programs.starship'.
+        '';
+      }
+
+      {
+        time = "2019-09-26T21:47:13+00:00";
+        message = ''
+          A new module is available: 'programs.rtorrent'.
+        '';
+      }
+
+      {
+        time = "2019-11-04T20:56:29+00:00";
+        message = ''
+          A new module is available: 'programs.pazi'.
+        '';
+      }
+
+      {
+        time = "2019-11-05T21:54:04+00:00";
+        condition = config.programs.zsh.enable;
+        message = ''
+          The 'programs.zsh.history.path' option behavior and the
+          default value has changed for state version 20.03 and above.
+
+          Specifically, '$HOME' will no longer be prepended to the
+          option value, which allows specifying absolute paths (e.g.
+          using the xdg module). Also, the default value is fixed to
+          '$HOME/.zsh_history' and 'dotDir' path is not prepended to
+          it anymore.
+        '';
+      }
     ];
   };
 }

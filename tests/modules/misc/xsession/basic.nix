@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
@@ -14,6 +14,16 @@ with lib;
       profileExtra = "profile extra commands";
     };
 
+    nixpkgs.overlays = [
+      (self: super: {
+        xorg = super.xorg // {
+          setxkbmap = super.xorg.setxkbmap // {
+            outPath = "@setxkbmap@";
+          };
+        };
+     })
+    ];
+
     nmt.script = ''
       assertFileExists home-files/.xprofile
       assertFileContent \
@@ -25,6 +35,10 @@ with lib;
         home-files/.xsession \
         ${./basic-xsession-expected.txt}
 
+      assertFileExists home-files/.config/systemd/user/setxkbmap.service
+      assertFileContent \
+        home-files/.config/systemd/user/setxkbmap.service \
+        ${./basic-setxkbmap-expected.service}
     '';
   };
 }

@@ -10,8 +10,15 @@ with lib;
       settings = {
         no-comments = false;
         s2k-cipher-algo = "AES128";
+        throw-keyids = true;
       };
     };
+
+    nixpkgs.overlays = [
+      (self: super: {
+        gnupg = pkgs.writeScriptBin "dummy-gnupg" "";
+      })
+    ];
 
     nmt.script = ''
       assertFileExists home-files/.gnupg/gpg.conf
